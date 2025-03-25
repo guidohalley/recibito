@@ -11,7 +11,7 @@ export async function POST(request) {
     // Ruta completa al archivo emailTemplate.html
     const templatePath = path.join(process.cwd(), "src", "templates", "emailTemplate.html");
     let htmlTemplate = await fs.readFile(templatePath, "utf8");
-
+    
     // Reemplaza los placeholders por los datos enviados
     htmlTemplate = htmlTemplate
       .replace(/{{emisorNombre}}/g, emisor.nombre)
@@ -37,15 +37,8 @@ export async function POST(request) {
     const info = await transporter.sendMail({
       from: `"Recibito" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
       to: `${emisor.email}, ${receptor.email}, ${process.env.ADMIN_EMAIL}`,
-      subject: "Recibo de Pago",
-      html: htmlTemplate,
-      attachments: [
-        {
-          filename: "msnr.png",
-          path: path.join(process.cwd(), "public", "msnr.svg"), // Asegúrate de que la ruta y el nombre del archivo sean correctos
-          cid: "logo",
-        },
-      ],
+      subject: "Recibo de Pago | @misionary.ok",
+      html: htmlTemplate,      
     });
 
     return new Response(

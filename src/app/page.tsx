@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
+import { Toaster, toast } from 'react-hot-toast';
 
 export default function Home() {
   // Función para obtener la fecha y hora actual en formato "YYYY-MM-DDTHH:MM"
@@ -25,8 +25,7 @@ export default function Home() {
   useEffect(() => {
     const timer = setInterval(() => {
       setTransaccion(prev => ({ ...prev, fecha: getCurrentDateTime() }));
-    }, 60000); // Actualización cada 60 segundos
-
+    }, 60000);
     return () => clearInterval(timer);
   }, []);
 
@@ -36,7 +35,7 @@ export default function Home() {
     const data = { emisor, receptor, transaccion };
 
     try {
-      const res = await fetch('/api/sendEmail', { // Asegúrate de que la ruta sea correcta
+      const res = await fetch('/api/email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
@@ -45,46 +44,67 @@ export default function Home() {
 
       if (res.ok) {
         setMensaje('Recibo enviado correctamente');
+        toast('Recibo enviado correctamente', {
+          icon: '👏',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       } else {
         setMensaje(result.error || 'Error al enviar el recibo');
+        toast(result.error || 'Error al enviar el recibo', {
+          icon: '❌',
+          style: {
+            borderRadius: '10px',
+            background: '#333',
+            color: '#fff',
+          },
+        });
       }
     } catch (error) {
       console.error('Error:', error);
       setMensaje('Error al enviar el recibo');
+      toast('Error al enviar el recibo', {
+        icon: '❌',
+        style: {
+          borderRadius: '10px',
+          background: '#333',
+          color: '#fff',
+        },
+      });
     }
   };
 
   return (
-    <div className="bg-black min-h-screen p-8 flex flex-col items-center">
-      <h1 className="text-4xl font-bold text-white mb-6">Recibitos Misionary</h1>
-      <div className="w-full max-w-2xl bg-gray-800 p-8 rounded-lg shadow-lg mx-auto">
-        <div className="flex justify-center mb-6">
-          <Image
-            src="/msnr.svg" // Asegúrate de que el archivo msnr.svg esté en la carpeta public
+    <div className="min-h-screen bg-black p-8 flex flex-col items-center">
+      <Toaster />
+      {/* <header className="mb-12 text-center">
+        <h1 className="text-5xl font-extrabold text-white">Recibitos Misionary</h1>
+      </header> */}
+      <main className="w-full max-w-3xl bg-gray-900 rounded-2xl shadow-xl p-10">
+        {/* Encabezado con logo a la izquierda y título a la derecha */}
+        <div className="mb-8 flex items-center space-x-4">
+          <imgA 
+            src="https://misionary.com/wp-content/uploads/2024/06/Logos-Misionary_MSNR-440-a.png"
             alt="@misionary.ok"
-            width={50}
-            height={50}
+            className="h-16"
           />
+          <h2 className="text-3xl font-bold text-white">Generar Recibo de Pago</h2>
         </div>
-        <h1 className="text-3xl font-bold text-white mb-6 text-center">
-          Generar Recibo de Pago
-        </h1>
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Datos del Emisor */}
-          <fieldset className="border border-gray-600 p-4 rounded">
-            <legend className="text-white font-semibold">
-              Datos del Emisor
-            </legend>
+          <fieldset className="border border-gray-700 p-4 rounded">
+            <legend className="text-lg font-semibold text-white">Datos del Emisor</legend>
             <div className="mt-2">
               <label className="block text-gray-300">Nombre</label>
               <input
                 type="text"
                 required
                 value={emisor.nombre}
-                onChange={(e) =>
-                  setEmisor({ ...emisor, nombre: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setEmisor({ ...emisor, nombre: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="mt-2">
@@ -93,29 +113,22 @@ export default function Home() {
                 type="email"
                 required
                 value={emisor.email}
-                onChange={(e) =>
-                  setEmisor({ ...emisor, email: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setEmisor({ ...emisor, email: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </fieldset>
-
           {/* Datos del Receptor */}
-          <fieldset className="border border-gray-600 p-4 rounded">
-            <legend className="text-white font-semibold">
-              Datos del Receptor
-            </legend>
+          <fieldset className="border border-gray-700 p-4 rounded">
+            <legend className="text-lg font-semibold text-white">Datos del Receptor</legend>
             <div className="mt-2">
               <label className="block text-gray-300">Nombre</label>
               <input
                 type="text"
                 required
                 value={receptor.nombre}
-                onChange={(e) =>
-                  setReceptor({ ...receptor, nombre: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setReceptor({ ...receptor, nombre: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="mt-2">
@@ -124,29 +137,25 @@ export default function Home() {
                 type="email"
                 required
                 value={receptor.email}
-                onChange={(e) =>
-                  setReceptor({ ...receptor, email: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setReceptor({ ...receptor, email: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </fieldset>
-
           {/* Detalles de la Transacción */}
-          <fieldset className="border border-gray-600 p-4 rounded">
-            <legend className="text-white font-semibold">
-              Detalles de la Transacción
-            </legend>
+          <fieldset className="border border-gray-700 p-4 rounded">
+            <legend className="text-lg font-semibold text-white">Detalles de la Transacción</legend>
             <div className="mt-2">
               <label className="block text-gray-300">Monto</label>
               <input
                 type="text"
                 required
                 value={transaccion.monto}
-                onChange={(e) =>
-                  setTransaccion({ ...transaccion, monto: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => {
+                  const value = e.target.value.replace(/\$/g, "");
+                  setTransaccion({ ...transaccion, monto: `$${value}` });
+                }}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="mt-2">
@@ -155,13 +164,8 @@ export default function Home() {
                 type="text"
                 required
                 value={transaccion.concepto}
-                onChange={(e) =>
-                  setTransaccion({
-                    ...transaccion,
-                    concepto: e.target.value,
-                  })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setTransaccion({ ...transaccion, concepto: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
             <div className="mt-2">
@@ -170,26 +174,20 @@ export default function Home() {
                 type="datetime-local"
                 required
                 value={transaccion.fecha}
-                onChange={(e) =>
-                  setTransaccion({ ...transaccion, fecha: e.target.value })
-                }
-                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+                onChange={(e) => setTransaccion({ ...transaccion, fecha: e.target.value })}
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
             </div>
           </fieldset>
-
           <button
             type="submit"
-            className="w-full bg-white hover:bg-gray-300 text-black font-bold py-2 rounded"
+            className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-200"
           >
             Generar Recibo
           </button>
-
-          {mensaje && (
-            <p className="text-white text-center mt-4">{mensaje}</p>
-          )}
+          {mensaje && <p className="text-center text-white mt-4">{mensaje}</p>}
         </form>
-      </div>
+      </main>
     </div>
   );
 }

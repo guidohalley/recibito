@@ -3,19 +3,64 @@
 <head>
   <meta charset="UTF-8">
   <title>Recibo de Pago</title>
-  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-6">
-  <div class="bg-white shadow-md rounded-lg p-6">
-    <h1 class="text-2xl font-bold text-center mb-4">Recibo de Pago</h1>
-    <p class="mb-2"><span class="font-semibold">Emisor:</span> {{emisorNombre}} ({{emisorEmail}})</p>
-    <p class="mb-2"><span class="font-semibold">Receptor:</span> {{receptorNombre}} ({{receptorEmail}})</p>
-    <p class="mb-2"><span class="font-semibold">Monto:</span> {{monto}}</p>
-    <p class="mb-2"><span class="font-semibold">Concepto:</span> {{concepto}}</p>
-    <p class="mb-2"><span class="font-semibold">Fecha y Hora:</span> {{fecha}}</p>
-    <div class="mt-4 flex justify-center">
-      <img src="cid:logo" alt="Logo de la empresa" class="h-16"> <!-- Asegúrate de que el cid coincida -->
+<body style="
+  background: linear-gradient(45deg, #F2F2F2 0%, #9FC087 100%);
+  padding: 24px;
+  margin: 0;
+  font-family: sans-serif;
+">
+  <div style="
+    background-color: #ffffff;
+    max-width: 600px;
+    margin: 0 auto;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding: 24px;
+  ">
+    <!-- Encabezado con Logo + Título -->
+    <div style="margin-bottom: 16px;">
+      <table style="margin: 0 auto;">
+        <tr>
+          <!-- Logo -->
+          <td style="vertical-align: middle; padding-right: 12px;">
+            <img
+              src="https://misionary.com/wp-content/uploads/2024/06/Logos-Misionary_MSNR-440-a.png"
+              alt="@misionary.ok"
+              style="height: 64px;"
+            />
+          </td>
+          <!-- Título -->
+          <td style="vertical-align: middle;">
+            <h1 style="
+              font-size: 24px;
+              font-weight: bold;
+              margin: 0;
+              color: #262626;
+            ">
+              Recibo de Pago
+            </h1>
+          </td>
+        </tr>
+      </table>
     </div>
+
+    <!-- Contenido del Recibo -->
+    <p style="margin-bottom: 8px; color: #262626;">
+      <span style="font-weight: 600;">Emisor:</span> {{emisorNombre}} ({{emisorEmail}})
+    </p>
+    <p style="margin-bottom: 8px; color: #262626;">
+      <span style="font-weight: 600;">Receptor:</span> {{receptorNombre}} ({{receptorEmail}})
+    </p>
+    <p style="margin-bottom: 8px; color: #262626;">
+      <span style="font-weight: 600;">Monto:</span> {{monto}}
+    </p>
+    <p style="margin-bottom: 8px; color: #262626;">
+      <span style="font-weight: 600;">Concepto:</span> {{concepto}}
+    </p>
+    <p style="margin-bottom: 8px; color: #262626;">
+      <span style="font-weight: 600;">Fecha y Hora:</span> {{fecha}}
+    </p>
   </div>
 </body>
 </html>
