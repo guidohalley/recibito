@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Recibo de Pago</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+  <div class="bg-white shadow-md rounded-lg p-6">
+    <h1 class="text-2xl font-bold text-center mb-4">Recibo de Pago</h1>
+    <p class="mb-2"><span class="font-semibold">Emisor:</span> {{emisorNombre}} ({{emisorEmail}})</p>
+    <p class="mb-2"><span class="font-semibold">Receptor:</span> {{receptorNombre}} ({{receptorEmail}})</p>
+    <p class="mb-2"><span class="font-semibold">Monto:</span> {{monto}}</p>
+    <p class="mb-2"><span class="font-semibold">Concepto:</span> {{concepto}}</p>
+    <p class="mb-2"><span class="font-semibold">Fecha y Hora:</span> {{fecha}}</p>
+    <div class="mt-4 flex justify-center">
+      <img src="cid:logo" alt="Logo de la empresa" class="h-16"> <!-- Asegúrate de que el cid coincida -->
+    </div>
+  </div>
+</body>
+</html>

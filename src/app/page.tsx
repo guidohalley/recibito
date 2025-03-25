@@ -1,103 +1,195 @@
-import Image from "next/image";
+'use client';
+
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Home() {
-  return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+  // Función para obtener la fecha y hora actual en formato "YYYY-MM-DDTHH:MM"
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    now.setHours(now.getHours() - 3); // Ajuste para UTC-3
+    return now.toISOString().slice(0, 16);
+  };
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+  // Estados para capturar la información del recibo
+  const [emisor, setEmisor] = useState({ nombre: '', email: '' });
+  const [receptor, setReceptor] = useState({ nombre: '', email: '' });
+  const [transaccion, setTransaccion] = useState({
+    monto: '',
+    concepto: '',
+    fecha: getCurrentDateTime(),
+  });
+  const [mensaje, setMensaje] = useState('');
+
+  // Actualiza la fecha y hora cada minuto para mantenerlo dinámico
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTransaccion(prev => ({ ...prev, fecha: getCurrentDateTime() }));
+    }, 60000); // Actualización cada 60 segundos
+
+    return () => clearInterval(timer);
+  }, []);
+
+  // Envía la información a la API para generar y enviar el recibo
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const data = { emisor, receptor, transaccion };
+
+    try {
+      const res = await fetch('/api/sendEmail', { // Asegúrate de que la ruta sea correcta
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+
+      if (res.ok) {
+        setMensaje('Recibo enviado correctamente');
+      } else {
+        setMensaje(result.error || 'Error al enviar el recibo');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      setMensaje('Error al enviar el recibo');
+    }
+  };
+
+  return (
+    <div className="bg-black min-h-screen p-8 flex flex-col items-center">
+      <h1 className="text-4xl font-bold text-white mb-6">Recibitos Misionary</h1>
+      <div className="w-full max-w-2xl bg-gray-800 p-8 rounded-lg shadow-lg mx-auto">
+        <div className="flex justify-center mb-6">
+          <Image
+            src="/msnr.svg" // Asegúrate de que el archivo msnr.svg esté en la carpeta public
+            alt="@misionary.ok"
+            width={50}
+            height={50}
+          />
         </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+        <h1 className="text-3xl font-bold text-white mb-6 text-center">
+          Generar Recibo de Pago
+        </h1>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Datos del Emisor */}
+          <fieldset className="border border-gray-600 p-4 rounded">
+            <legend className="text-white font-semibold">
+              Datos del Emisor
+            </legend>
+            <div className="mt-2">
+              <label className="block text-gray-300">Nombre</label>
+              <input
+                type="text"
+                required
+                value={emisor.nombre}
+                onChange={(e) =>
+                  setEmisor({ ...emisor, nombre: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-gray-300">Email</label>
+              <input
+                type="email"
+                required
+                value={emisor.email}
+                onChange={(e) =>
+                  setEmisor({ ...emisor, email: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+          </fieldset>
+
+          {/* Datos del Receptor */}
+          <fieldset className="border border-gray-600 p-4 rounded">
+            <legend className="text-white font-semibold">
+              Datos del Receptor
+            </legend>
+            <div className="mt-2">
+              <label className="block text-gray-300">Nombre</label>
+              <input
+                type="text"
+                required
+                value={receptor.nombre}
+                onChange={(e) =>
+                  setReceptor({ ...receptor, nombre: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-gray-300">Email</label>
+              <input
+                type="email"
+                required
+                value={receptor.email}
+                onChange={(e) =>
+                  setReceptor({ ...receptor, email: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+          </fieldset>
+
+          {/* Detalles de la Transacción */}
+          <fieldset className="border border-gray-600 p-4 rounded">
+            <legend className="text-white font-semibold">
+              Detalles de la Transacción
+            </legend>
+            <div className="mt-2">
+              <label className="block text-gray-300">Monto</label>
+              <input
+                type="text"
+                required
+                value={transaccion.monto}
+                onChange={(e) =>
+                  setTransaccion({ ...transaccion, monto: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-gray-300">Concepto</label>
+              <input
+                type="text"
+                required
+                value={transaccion.concepto}
+                onChange={(e) =>
+                  setTransaccion({
+                    ...transaccion,
+                    concepto: e.target.value,
+                  })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+            <div className="mt-2">
+              <label className="block text-gray-300">Fecha y Hora</label>
+              <input
+                type="datetime-local"
+                required
+                value={transaccion.fecha}
+                onChange={(e) =>
+                  setTransaccion({ ...transaccion, fecha: e.target.value })
+                }
+                className="w-full p-2 rounded bg-gray-700 text-white border border-gray-500"
+              />
+            </div>
+          </fieldset>
+
+          <button
+            type="submit"
+            className="w-full bg-white hover:bg-gray-300 text-black font-bold py-2 rounded"
+          >
+            Generar Recibo
+          </button>
+
+          {mensaje && (
+            <p className="text-white text-center mt-4">{mensaje}</p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
