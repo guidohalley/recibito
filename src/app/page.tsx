@@ -86,7 +86,7 @@ export default function Home() {
       <main className="w-full max-w-3xl bg-gray-900 rounded-2xl shadow-xl p-10">
         {/* Encabezado con logo a la izquierda y título a la derecha */}
         <div className="mb-8 flex items-center space-x-4">
-          <imgA 
+          <img
             src="https://misionary.com/wp-content/uploads/2024/06/Logos-Misionary_MSNR-440-a.png"
             alt="@misionary.ok"
             className="h-16"
