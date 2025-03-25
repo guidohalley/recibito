@@ -4,8 +4,6 @@ import nodemailer from "nodemailer";
 import fs from "fs/promises";
 import path from "path";
 
-// ...resto del código...
-
 export async function POST(request) {
   try {
     const { emisor, receptor, transaccion } = await request.json();
