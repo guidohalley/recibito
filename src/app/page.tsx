@@ -21,6 +21,20 @@ export default function Home() {
   });
   const [mensaje, setMensaje] = useState('');
 
+  // Lista de receptores predefinidos
+  const receptoresPredefinidos = [
+    { nombre: 'Guido Halley', email: 'guido@misionary.com' },
+    { nombre: 'Santiago Feltan', email: 'santiago@misionary.com' },
+    { nombre: 'AGENCIA', email: 'marketing@misionary.com' },
+    { nombre: 'Lucas Milde', email: 'lucascmilde@gmail.com' },
+    { nombre: 'Evelyn Lopez', email: 'evelyn.lopez.chapedi@gmail.com' },
+    { nombre: 'Nicole Marinoff', email: 'nicoleangm@gmail.com' },
+    { nombre: 'Anabella Bartholdy', email: 'anabellabartholdy2000@gmail.com' },
+    { nombre: 'Ivan Ezequiel Gomez', email: 'ivangomezlab@gmail.com' },
+    { nombre: 'Gimena Valentina Rippel', email: 'gimenarippel@gmail.com' },
+    { nombre: 'Jimena Romero', email: 'romerojimena54@gmail.com' },
+  ];
+
   // Actualiza la fecha y hora cada minuto para mantenerlo dinámico
   useEffect(() => {
     const timer = setInterval(() => {
@@ -122,13 +136,34 @@ export default function Home() {
           <fieldset className="border border-gray-700 p-4 rounded">
             <legend className="text-lg font-semibold text-white">Datos del Receptor</legend>
             <div className="mt-2">
+              <label className="block text-gray-300">Seleccionar receptor</label>
+              <select
+                className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                value={receptor.email}
+                onChange={e => {
+                  const selected = receptoresPredefinidos.find(r => r.email === e.target.value);
+                  if (selected) {
+                    setReceptor(selected);
+                  } else {
+                    setReceptor({ nombre: '', email: '' });
+                  }
+                }}
+              >
+                <option value="">-- Otro (ingresar manualmente) --</option>
+                {receptoresPredefinidos.map(r => (
+                  <option key={r.email} value={r.email}>{r.nombre} ({r.email})</option>
+                ))}
+              </select>
+            </div>
+            <div className="mt-2">
               <label className="block text-gray-300">Nombre</label>
               <input
                 type="text"
                 required
                 value={receptor.nombre}
-                onChange={(e) => setReceptor({ ...receptor, nombre: e.target.value })}
+                onChange={e => setReceptor({ ...receptor, nombre: e.target.value })}
                 className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={receptoresPredefinidos.some(r => r.email === receptor.email)}
               />
             </div>
             <div className="mt-2">
@@ -137,8 +172,9 @@ export default function Home() {
                 type="email"
                 required
                 value={receptor.email}
-                onChange={(e) => setReceptor({ ...receptor, email: e.target.value })}
+                onChange={e => setReceptor({ ...receptor, email: e.target.value })}
                 className="w-full p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500"
+                disabled={receptoresPredefinidos.some(r => r.email === receptor.email)}
               />
             </div>
           </fieldset>
