@@ -116,7 +116,7 @@ export default function ReciboForm() {
             <TransaccionFieldset register={register} errors={errors} />
             <motion.button
               type="submit"
-              className="w-full py-3 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-lg transition duration-200"
+              className="w-full py-3 bg-[#E3FC74] text-black font-bold rounded-lg transition duration-200 hover:border hover:border-[#E3FC74] hover:bg-transparent hover:text-white"
               whileTap={{ scale: 0.97 }}
               whileHover={{ scale: 1.03 }}
               disabled={isSubmitting}
