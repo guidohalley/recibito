@@ -91,24 +91,29 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
                 <TfiAngleDown />
               </span>
             </Select.Trigger>
-            <Select.Content className="bg-gray-900 text-white rounded shadow-xl border border-gray-700 mt-1 z-50 animate-fade-in overflow-hidden">
-              <Select.Viewport className="py-1">
-                <Select.Item value="otro" className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors">
-                  <span className="text-gray-400"><TfiUser /></span>
-                  <span>-- Otro (ingresar manualmente) --</span>
-                </Select.Item>
-                {receptoresPredefinidos.map((receptor) => (
-                  <Select.Item 
-                    key={receptor.email} 
-                    value={receptor.email} 
-                    className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors"
-                  >
+            <Select.Portal>
+              <Select.Content 
+                className="bg-gray-900 text-white rounded shadow-xl border border-gray-700 mt-1 z-50 animate-fade-in overflow-hidden"
+                position="popper"
+              >
+                <Select.Viewport className="py-1">
+                  <Select.Item value="otro" className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors">
                     <span className="text-gray-400"><TfiUser /></span>
-                    <span>{receptor.nombre} <span className='text-xs text-gray-400'>({receptor.email})</span></span>
+                    <span>-- Otro (ingresar manualmente) --</span>
                   </Select.Item>
-                ))}
-              </Select.Viewport>
-            </Select.Content>
+                  {receptoresPredefinidos.map((receptor) => (
+                    <Select.Item 
+                      key={receptor.email} 
+                      value={receptor.email} 
+                      className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors"
+                    >
+                      <span className="text-gray-400"><TfiUser /></span>
+                      <span>{receptor.nombre} <span className='text-xs text-gray-400'>({receptor.email})</span></span>
+                    </Select.Item>
+                  ))}
+                </Select.Viewport>
+              </Select.Content>
+            </Select.Portal>
           </Select.Root>
         </div>
       </div>
