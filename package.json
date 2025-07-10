@@ -9,11 +9,17 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.1.1",
+    "@radix-ui/react-select": "^2.2.5",
+    "framer-motion": "^12.23.3",
     "next": "15.2.4",
     "nodemailer": "^6.10.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
-    "react-hot-toast": "^2.5.2"
+    "react-hook-form": "^7.60.0",
+    "react-hot-toast": "^2.5.2",
+    "react-icons": "^5.5.0",
+    "zod": "^4.0.2"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
