@@ -44,7 +44,7 @@ export default function ReciboForm() {
       monto: '',
       moneda: 'ARS',
       concepto: '',
-      fecha: '',
+      fecha: getCurrentDateTime(),
     },
   });
 

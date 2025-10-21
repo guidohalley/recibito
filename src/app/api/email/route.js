@@ -4,19 +4,27 @@ import nodemailer from "nodemailer";
 import fs from "fs/promises";
 import path from "path";
 
-// Función para formatear fecha
+// Función para formatear fecha con tolerancia a valores inválidos
 const formatearFecha = (dateTimeLocal) => {
+  if (!dateTimeLocal || typeof dateTimeLocal !== 'string' || !dateTimeLocal.includes('T')) {
+    return dateTimeLocal || '';
+  }
   const [fecha, hora] = dateTimeLocal.split("T");
+  if (!fecha || !hora || !hora.includes(':')) return dateTimeLocal;
   const [año, mes, día] = fecha.split("-");
   const [horas, minutos] = hora.split(":");
-  
+  if (!año || !mes || !día || !horas || !minutos) return dateTimeLocal;
   const meses = [
     "enero", "febrero", "marzo", "abril", "mayo", "junio",
     "julio", "agosto", "septiembre", "octubre", "noviembre", "diciembre"
   ];
-  
-  const nombreMes = meses[parseInt(mes) - 1];
-  return `${parseInt(día)} de ${nombreMes} de ${año}, a las ${horas}:${minutos} hs`;
+  const indiceMes = parseInt(mes, 10) - 1;
+  const nombreMes = meses[indiceMes] || mes;
+  const diaNumero = parseInt(día, 10);
+  if (Number.isNaN(diaNumero)) return dateTimeLocal;
+  const horasStr = `${horas}`.padStart(2, '0');
+  const minutosStr = `${minutos}`.padStart(2, '0');
+  return `${diaNumero} de ${nombreMes} de ${año}, a las ${horasStr}:${minutosStr} hs`;
 };
 
 // Función para formatear monto con símbolo de moneda
