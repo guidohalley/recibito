@@ -39,6 +39,7 @@ export default function ReciboForm() {
       receptorNombre: '',
       receptorEmail: '',
       monto: '',
+      moneda: 'ARS',
       concepto: '',
       fecha: '',
     },
@@ -63,6 +64,7 @@ export default function ReciboForm() {
           receptor: { nombre: data.receptorNombre, email: data.receptorEmail },
           transaccion: {
             monto: data.monto,
+            moneda: data.moneda,
             concepto: data.concepto,
             fecha: data.fecha,
           },
@@ -84,58 +86,64 @@ export default function ReciboForm() {
   return (
     <>
       <Toaster />
-      <main className="w-full max-w-3xl bg-[#18181b] rounded-2xl shadow-xl p-10">
-        <div className="mb-8 flex items-center space-x-4">
-          <img
-            src="https://www.misionary.com/msnr.svg"
-            alt="@misionary.ok"
-            className="h-16"
-          />
-          <h2 className="text-3xl font-bold text-white">Generar Recibo de Pago</h2>
-        </div>
-        <AnimatePresence mode="wait">
-          <motion.form
-            key="form"
-            onSubmit={handleSubmit(onSubmit)}
-            className="space-y-6"
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 30 }}
-            transition={{ duration: 0.4 }}
-          >
-            <EmisorFieldset
-              register={register}
-              errors={errors}
-              setValue={setValue}
+      <main className="w-full min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 px-4 py-6 sm:px-6 sm:py-8 md:px-0 md:py-12 flex items-center justify-center">
+        <div className="w-full max-w-3xl bg-[#18181b] rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
+          <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row items-center gap-4">
+            <img
+              src="https://www.misionary.com/msnr.svg"
+              alt="@misionary.ok"
+              className="h-12 sm:h-14 md:h-16"
             />
-            <ReceptorFieldset
-              register={register}
-              errors={errors}
-              setValue={setValue}
-            />
-            <TransaccionFieldset register={register} errors={errors} />
-            <motion.button
-              type="submit"
-              className="w-full py-3 bg-[#E3FC74] text-black font-bold rounded-lg transition duration-200 hover:border hover:border-[#E3FC74] hover:bg-transparent hover:text-white"
-              whileTap={{ scale: 0.97 }}
-              whileHover={{ scale: 1.03 }}
-              disabled={isSubmitting}
+            <h2 className="text-2xl sm:text-3xl font-bold text-white text-center sm:text-left">Generar Recibo de Pago</h2>
+          </div>
+          <AnimatePresence mode="wait">
+            <motion.form
+              key="form"
+              onSubmit={handleSubmit(onSubmit)}
+              className="space-y-6"
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 30 }}
+              transition={{ duration: 0.4 }}
             >
-              {isSubmitting ? 'Enviando...' : 'Generar Recibo'}
-            </motion.button>
-            {mensaje && (
-              <motion.p
-                className="text-center text-white mt-4"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: 10 }}
-                transition={{ duration: 0.3 }}
+              <EmisorFieldset
+                register={register}
+                errors={errors}
+                setValue={setValue}
+              />
+              <ReceptorFieldset
+                register={register}
+                errors={errors}
+                setValue={setValue}
+              />
+              <TransaccionFieldset 
+                register={register} 
+                errors={errors}
+                setValue={setValue}
+              />
+              <motion.button
+                type="submit"
+                className="w-full py-2 sm:py-3 bg-[#E3FC74] text-black font-bold rounded-lg transition duration-200 hover:border hover:border-[#E3FC74] hover:bg-transparent hover:text-white text-sm sm:text-base"
+                whileTap={{ scale: 0.97 }}
+                whileHover={{ scale: 1.03 }}
+                disabled={isSubmitting}
               >
-                {mensaje}
-              </motion.p>
-            )}
-          </motion.form>
-        </AnimatePresence>
+                {isSubmitting ? 'Enviando...' : 'Generar Recibo'}
+              </motion.button>
+              {mensaje && (
+                <motion.p
+                  className="text-center text-white mt-4 text-sm sm:text-base"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: 10 }}
+                  transition={{ duration: 0.3 }}
+                >
+                  {mensaje}
+                </motion.p>
+              )}
+            </motion.form>
+          </AnimatePresence>
+        </div>
       </main>
     </>
   );

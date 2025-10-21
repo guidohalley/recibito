@@ -23,6 +23,8 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
     { nombre: 'Ivan Ezequiel Gomez', email: 'ivangomezlab@gmail.com' },
     { nombre: 'Gimena Valentina Rippel', email: 'gimenarippel@gmail.com' },
     { nombre: 'Jimena Romero', email: 'romerojimena54@gmail.com' },
+    { nombre: 'Lorena Cindy Keo', email: 'lkeo520@gmail.com' },
+    { nombre: 'Rodolfo Tomas Roetti', email: 'roettitomas@gmail.com' },
   ];
 
   // Estado local para manejo simple
@@ -66,20 +68,20 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
   };
 
   return (
-    <fieldset className="border border-gray-700 p-4 rounded">
-      <legend className="text-lg font-semibold text-white">Datos del Receptor</legend>
+    <fieldset className="border border-gray-700 p-4 sm:p-5 md:p-4 rounded">
+      <legend className="text-base sm:text-lg md:text-lg font-semibold text-white">Datos del Receptor</legend>
       
       {/* Selector */}
-      <div className="mt-2">
-        <label className="block text-gray-300">Seleccionar receptor</label>
+      <div className="mt-3 sm:mt-4">
+        <label className="block text-gray-300 text-sm sm:text-base">Seleccionar receptor</label>
         <div className="relative group">
           <Select.Root
             value={selectedOption}
             onValueChange={handleSelectChange}
           >
             <Select.Trigger
-              className="w-full pl-11 pr-10 p-2 border border-gray-700 rounded bg-gray-800 text-white text-left flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 transition relative hover:border-blue-500 group-hover:border-blue-500"
-              style={{ minHeight: '42px' }}
+              className="w-full pl-11 pr-10 p-2 sm:p-2.5 border border-gray-700 rounded bg-gray-800 text-white text-left flex items-center focus:outline-none focus:ring-2 focus:ring-blue-500 transition relative hover:border-blue-500 group-hover:border-blue-500 text-sm sm:text-base"
+              style={{ minHeight: '40px' }}
             >
               <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
                 <TfiUser />
@@ -97,17 +99,17 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
                 position="popper"
               >
                 <Select.Viewport className="py-1">
-                  <Select.Item value="otro" className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors">
-                    <span className="text-gray-400"><TfiUser /></span>
+                  <Select.Item value="otro" className="px-3 sm:px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors text-sm sm:text-base">
+                    <span className="text-gray-400"><TfiUser className="text-sm" /></span>
                     <span>-- Otro (ingresar manualmente) --</span>
                   </Select.Item>
                   {receptoresPredefinidos.map((receptor) => (
                     <Select.Item 
                       key={receptor.email} 
                       value={receptor.email} 
-                      className="px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors"
+                      className="px-3 sm:px-4 py-2 hover:bg-blue-600 hover:text-white cursor-pointer rounded flex items-center gap-2 transition-colors text-sm sm:text-base"
                     >
-                      <span className="text-gray-400"><TfiUser /></span>
+                      <span className="text-gray-400"><TfiUser className="text-sm" /></span>
                       <span>{receptor.nombre} <span className='text-xs text-gray-400'>({receptor.email})</span></span>
                     </Select.Item>
                   ))}
@@ -119,11 +121,11 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
       </div>
 
       {/* Campo Nombre */}
-      <div className="mt-2">
-        <label className="block text-gray-300">Nombre</label>
+      <div className="mt-3 sm:mt-4">
+        <label className="block text-gray-300 text-sm sm:text-base">Nombre</label>
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            <TfiUser />
+            <TfiUser className="text-sm sm:text-base" />
           </span>
           <input
             {...register('receptorNombre')}
@@ -131,21 +133,21 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
             value={nombre}
             onChange={(e) => !isReadonly && setNombre(e.target.value)}
             readOnly={isReadonly}
-            className={`w-full pl-10 p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full pl-10 p-2 sm:p-2.5 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base ${
               isReadonly ? 'cursor-not-allowed opacity-75' : ''
             }`}
             placeholder={isReadonly ? '' : 'Nombre del receptor'}
           />
         </div>
-        {errors.receptorNombre && <span className="text-red-400 text-sm">{errors.receptorNombre.message}</span>}
+        {errors.receptorNombre && <span className="text-red-400 text-xs sm:text-sm">{errors.receptorNombre.message}</span>}
       </div>
 
       {/* Campo Email */}
-      <div className="mt-2">
-        <label className="block text-gray-300">Email</label>
+      <div className="mt-3 sm:mt-4">
+        <label className="block text-gray-300 text-sm sm:text-base">Email</label>
         <div className="relative">
           <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 pointer-events-none">
-            <TfiEmail />
+            <TfiEmail className="text-sm sm:text-base" />
           </span>
           <input
             {...register('receptorEmail')}
@@ -153,13 +155,13 @@ export default function ReceptorFieldset({ register, errors, setValue }: Props) 
             value={email}
             onChange={(e) => !isReadonly && setEmail(e.target.value)}
             readOnly={isReadonly}
-            className={`w-full pl-10 p-2 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full pl-10 p-2 sm:p-2.5 border border-gray-700 rounded bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm sm:text-base ${
               isReadonly ? 'cursor-not-allowed opacity-75' : ''
             }`}
             placeholder={isReadonly ? '' : 'Email del receptor'}
           />
         </div>
-        {errors.receptorEmail && <span className="text-red-400 text-sm">{errors.receptorEmail.message}</span>}
+        {errors.receptorEmail && <span className="text-red-400 text-xs sm:text-sm">{errors.receptorEmail.message}</span>}
       </div>
     </fieldset>
   );
