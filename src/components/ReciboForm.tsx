@@ -9,10 +9,13 @@ import { schema, FormValues } from './types';
 import EmisorFieldset from './EmisorFieldset';
 import ReceptorFieldset from './ReceptorFieldset';
 import TransaccionFieldset from './TransaccionFieldset';
+import ReciboCorrectionModal from './ReciboCorrectionModal';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export default function ReciboForm() {
   const [mounted, setMounted] = useState(false);
+  const [showPreview, setShowPreview] = useState(false);
+  const [isLoadingEmail, setIsLoadingEmail] = useState(false);
   useEffect(() => { setMounted(true); }, []);
 
   const getCurrentDateTime = () => {
@@ -54,38 +57,66 @@ export default function ReciboForm() {
     return () => clearInterval(timer);
   }, [setValue]);
 
-  const onSubmit = async (data: FormValues) => {
+  const formData = watch();
+
+  const handleGenerarRecibo = () => {
+    setShowPreview(true);
+  };
+
+  const handleConfirmEmail = async () => {
     try {
+      setIsLoadingEmail(true);
       const res = await fetch('/api/email', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          emisor: { nombre: data.emisorNombre, email: data.emisorEmail },
-          receptor: { nombre: data.receptorNombre, email: data.receptorEmail },
+          emisor: { nombre: formData.emisorNombre, email: formData.emisorEmail },
+          receptor: { nombre: formData.receptorNombre, email: formData.receptorEmail },
           transaccion: {
-            monto: data.monto,
-            moneda: data.moneda,
-            concepto: data.concepto,
-            fecha: data.fecha,
+            monto: formData.monto,
+            moneda: formData.moneda,
+            concepto: formData.concepto,
+            fecha: formData.fecha,
           },
         }),
       });
       const result = await res.json();
       if (res.ok) {
         setMensaje('Recibo enviado correctamente');
+        setShowPreview(false);
         reset();
       } else {
         setMensaje(result.error || 'Error al enviar el recibo');
       }
     } catch (error) {
       setMensaje('Error al enviar el recibo');
+    } finally {
+      setIsLoadingEmail(false);
     }
+  };
+
+  const onSubmit = async (data: FormValues) => {
+    handleGenerarRecibo();
   };
 
   if (!mounted) return null;
   return (
     <>
       <Toaster />
+      <ReciboCorrectionModal
+        isOpen={showPreview}
+        emisor={{ nombre: formData.emisorNombre, email: formData.emisorEmail }}
+        receptor={{ nombre: formData.receptorNombre, email: formData.receptorEmail }}
+        transaccion={{
+          monto: formData.monto,
+          moneda: formData.moneda,
+          concepto: formData.concepto,
+          fecha: formData.fecha,
+        }}
+        onConfirm={handleConfirmEmail}
+        onCancel={() => setShowPreview(false)}
+        isLoading={isLoadingEmail}
+      />
       <main className="w-full min-h-screen bg-gradient-to-b from-gray-900 to-gray-950 px-4 py-6 sm:px-6 sm:py-8 md:px-0 md:py-12 flex items-center justify-center">
         <div className="w-full max-w-3xl bg-[#18181b] rounded-2xl shadow-xl p-6 sm:p-8 md:p-10">
           <div className="mb-6 sm:mb-8 flex flex-col sm:flex-row items-center gap-4">

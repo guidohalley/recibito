@@ -66,9 +66,9 @@ export async function POST(request) {
 
     // Envía el correo
     const info = await transporter.sendMail({
-      from: `"Recibito" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-      to: `${emisor.email}, ${receptor.email}, ${process.env.ADMIN_EMAIL}`,
-      subject: "Recibo de Pago | @misionary.ok",
+      from: `"Misionary" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
+      to: `${emisor.email}, ${receptor.email}, marketing@misionary.com`,
+      subject: "Recibo de Pago | Misionary",
       html: htmlTemplate,      
     });
 

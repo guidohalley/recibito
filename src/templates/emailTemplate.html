@@ -3,94 +3,95 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Recibo de Pago</title>
-  <style>
-    body { margin: 0; padding: 0; font-family: 'Arial', sans-serif; background-color: #f5f5f5; }
-    .container { width: 100%; max-width: 700px; margin: 0 auto; background-color: #ffffff; }
-    .header { padding: 40px 30px; text-align: center; border-bottom: 2px solid #262626; }
-    .title { margin: 0; font-size: 32px; font-weight: bold; color: #262626; letter-spacing: 1px; }
-    .content { padding: 40px 30px; }
-    .section { margin-bottom: 35px; }
-    .section-title { font-size: 12px; font-weight: bold; color: #666; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
-    .info-row { margin-bottom: 12px; font-size: 14px; color: #262626; line-height: 1.6; }
-    .label { font-weight: bold; display: inline-block; min-width: 180px; }
-    .separator { height: 1px; background-color: #e0e0e0; margin: 30px 0; }
-    .statement { font-size: 13px; color: #262626; line-height: 1.8; text-align: justify; margin: 30px 0; padding: 20px; background-color: #f9f9f9; border-left: 3px solid #262626; }
-    .footer { background-color: #262626; color: #ffffff; padding: 30px; text-align: center; font-size: 12px; }
-    .footer-link { color: #e3fc74; text-decoration: none; }
-    .footer-section { margin-bottom: 15px; }
-    .footer-section:last-child { margin-bottom: 0; }
-    .location { font-size: 11px; color: #999; margin-top: 10px; }
-    h1 { margin: 0; }
-    p { margin: 5px 0; }
-  </style>
+  <title>Recibo de Pago - Misionary</title>
 </head>
-<body>
-  <div class="container">
-    <!-- Encabezado -->
-    <div class="header">
-      <h1 class="title">RECIBO DE PAGO</h1>
+<body style="margin: 0; padding: 20px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Open Sans', 'Helvetica Neue', sans-serif; background: #f5f5f5;">
+  <div style="width: 100%; max-width: 650px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; box-shadow: 0px 4px 12px rgba(0,0,0,0.08); overflow: hidden;">
+    
+    <!-- Header Corporativo -->
+    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%); padding: 35px 30px; text-align: center; border-bottom: 2px solid #e8e8e8;">
+      <img src="https://www.misionary.com/msnr.svg" alt="Misionary" style="height: 50px; margin-bottom: 15px; filter: drop-shadow(0px 1px 2px rgba(0,0,0,0.05));">
+      <h1 style="margin: 0; font-size: 24px; font-weight: 700; color: #1a1a1a; letter-spacing: 1px; text-transform: uppercase;">Recibo de Pago</h1>
+      <p style="margin: 8px 0 0 0; font-size: 11px; color: #888; letter-spacing: 0.5px; font-weight: 500;">Documento Legal de Transacción</p>
     </div>
 
     <!-- Contenido Principal -->
-    <div class="content">
+    <div style="padding: 40px 30px;">
+      
       <!-- Sección: Emisor -->
-      <div class="section">
-        <div class="section-title">Emisor del Pago</div>
-        <div class="info-row">
-          <span class="label">{{emisorNombre}}</span>
-          <span>({{emisorEmail}})</span>
-        </div>
+      <div style="margin-bottom: 28px;">
+        <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Emisor</div>
+        <div style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px;">{{emisorNombre}}</div>
+        <div style="font-size: 12px; color: #777;">{{emisorEmail}}</div>
       </div>
 
       <!-- Sección: Receptor -->
-      <div class="section">
-        <div class="section-title">Receptor del Pago</div>
-        <div class="info-row">
-          <span class="label">{{receptorNombre}}</span>
-          <span>({{receptorEmail}})</span>
+      <div style="margin-bottom: 35px;">
+        <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Receptor</div>
+        <div style="font-size: 16px; font-weight: 600; color: #1a1a1a; margin-bottom: 2px;">{{receptorNombre}}</div>
+        <div style="font-size: 12px; color: #777;">{{receptorEmail}}</div>
+      </div>
+
+      <!-- Separador corporativo -->
+      <div style="height: 1px; background: #e8e8e8; margin: 30px 0;"></div>
+
+      <!-- Sección: Detalles con estilo corporativo -->
+      <div style="background: linear-gradient(135deg, #fafbfc 0%, #f5f7fa 100%); padding: 28px; border-radius: 10px; margin-bottom: 30px; border: 1px solid #e8e8e8; box-shadow: 0px 2px 6px rgba(0,0,0,0.04);">
+        <div style="display: inline-block; width: 100%;">
+          <div style="margin-bottom: 24px;">
+            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Monto</div>
+            <div style="font-size: 34px; font-weight: 700; color: #1a1a1a; letter-spacing: -0.5px;">{{monto}}</div>
+          </div>
+          
+          <div style="margin-bottom: 18px;">
+            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Concepto</div>
+            <div style="font-size: 15px; color: #1a1a1a; font-weight: 500;">{{concepto}}</div>
+          </div>
+          
+          <div>
+            <div style="font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 8px;">Fecha</div>
+            <div style="font-size: 13px; color: #1a1a1a;">{{fecha}}</div>
+          </div>
         </div>
       </div>
 
-      <!-- Sección: Detalles -->
-      <div class="section">
-        <div class="section-title">Detalles de la Transacción</div>
-        <div class="info-row">
-          <span class="label">Monto:</span>
-          <span style="font-weight: bold; font-size: 15px;">{{monto}}</span>
-        </div>
-        <div class="info-row">
-          <span class="label">Concepto:</span>
-          <span>{{concepto}}</span>
-        </div>
+      <!-- Separador corporativo -->
+      <div style="height: 1px; background: #e8e8e8; margin: 30px 0;"></div>
+
+      <!-- Declaración Legal Corporativa -->
+      <div style="background: #fafbfc; padding: 18px 20px; border-radius: 8px; border-left: 3px solid #1a1a1a;">
+        <p style="margin: 0 0 10px 0; font-size: 12px; color: #1a1a1a; line-height: 1.6;">
+          Se deja constancia formal del pago efectuado por <strong>{{emisorNombre}}</strong> a <strong>{{receptorNombre}}</strong> por el monto de <strong>{{monto}}</strong> correspondiente a: <strong>{{concepto}}</strong>
+        </p>
+        <p style="margin: 0; font-size: 12px; color: #1a1a1a; line-height: 1.6;">
+          Este documento tiene validez como recibo de pago y constancia de la transacción realizada el <strong>{{fecha}}</strong>.
+        </p>
       </div>
 
-      <!-- Declaración Legal -->
-      <div class="separator"></div>
+    </div>
+
+    <!-- Footer Corporativo -->
+    <div style="background: linear-gradient(135deg, #f8f9fa 0%, #f0f2f5 100%); padding: 35px 30px; text-align: center; border-top: 2px solid #e8e8e8;">
+      <div style="margin-bottom: 20px; padding-bottom: 20px; border-bottom: 1px solid #e8e8e8;">
+        <p style="margin: 0; font-size: 12px; font-weight: 700; color: #1a1a1a; text-transform: uppercase; letter-spacing: 0.8px;">Misionary</p>
+        <p style="margin: 5px 0 0 0; font-size: 11px; color: #888; letter-spacing: 0.3px;">Hacemos realidad tu visión digital</p>
+      </div>
       
-      <div class="statement">
-        <p>Siendo la fecha {{fecha}}, se deja constancia formal del pago efectuado por el emisor al receptor por el monto y concepto detallados anteriormente.</p>
-        <p>Este documento tiene validez como recibo de pago y constancia de la transacción realizada.</p>
+      <div style="margin-bottom: 18px;">
+        <p style="margin: 0 0 6px 0; font-size: 12px;">
+          <a href="https://www.misionary.com" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">www.misionary.com</a>
+        </p>
+        <p style="margin: 0; font-size: 12px;">
+          <a href="mailto:marketing@misionary.com" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">marketing@misionary.com</a>
+        </p>
+      </div>
+
+      <div style="padding-top: 18px; border-top: 1px solid #e8e8e8;">
+        <p style="margin: 0 0 4px 0; font-size: 10px; color: #999;">📍 Posadas, Misiones • Argentina</p>
+        <p style="margin: 8px 0 0 0; font-size: 9px; color: #aaa;">© 2025 Misionary. Todos los derechos reservados.</p>
       </div>
     </div>
 
-    <!-- Footer -->
-    <div class="footer">
-      <div class="footer-section">
-        <p style="margin: 0; font-size: 11px; color: #999;">Misionary - Hacemos realidad tu visión digital</p>
-      </div>
-      <div class="footer-section">
-        <p style="margin: 0;">
-          <a href="https://www.misionary.com" class="footer-link" style="text-decoration: none;">www.misionary.com</a>
-        </p>
-        <p style="margin: 5px 0 0 0; font-size: 12px;">
-          contacto@misionary.com
-        </p>
-      </div>
-      <div class="location">
-        <p style="margin: 0;">ARG | Posadas, Misiones</p>
-      </div>
-    </div>
   </div>
 </body>
 </html>
