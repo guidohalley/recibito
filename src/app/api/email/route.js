@@ -35,6 +35,39 @@ export async function POST(request) {
   try {
     const { emisor, receptor, transaccion } = await request.json();
 
+    // Validación básica del payload
+    if (!emisor || !receptor || !transaccion) {
+      return new Response(
+        JSON.stringify({ error: "Payload inválido" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+    const requiredStrings = [
+      emisor.nombre,
+      emisor.email,
+      receptor.nombre,
+      receptor.email,
+      transaccion.monto,
+      transaccion.moneda,
+      transaccion.concepto,
+      transaccion.fecha,
+    ];
+    if (requiredStrings.some((v) => typeof v !== 'string' || v.trim() === '')) {
+      return new Response(
+        JSON.stringify({ error: "Campos requeridos faltantes o inválidos" }),
+        { status: 400, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
+    // Comprobación de variables de entorno requeridas
+    const { SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS, SMTP_SECURE, SMTP_FROM, ADMIN_EMAIL } = process.env;
+    if (!SMTP_HOST || !SMTP_PORT || !SMTP_USER || !SMTP_PASS) {
+      return new Response(
+        JSON.stringify({ error: "Configuración SMTP incompleta" }),
+        { status: 500, headers: { "Content-Type": "application/json" } }
+      );
+    }
+
     // Ruta completa al archivo emailTemplate.html
     const templatePath = path.join(process.cwd(), "src", "templates", "emailTemplate.html");
     let htmlTemplate = await fs.readFile(templatePath, "utf8");
@@ -55,25 +88,26 @@ export async function POST(request) {
 
     // Configura el transportador con las variables de entorno
     let transporter = nodemailer.createTransport({
-      host: process.env.SMTP_HOST,
-      port: parseInt(process.env.SMTP_PORT || "587"),
-      secure: process.env.SMTP_SECURE === "true",
+      host: SMTP_HOST,
+      port: parseInt(SMTP_PORT || "587"),
+      secure: SMTP_SECURE === "true",
       auth: {
-        user: process.env.SMTP_USER,
-        pass: process.env.SMTP_PASS,
+        user: SMTP_USER,
+        pass: SMTP_PASS,
       },
     });
 
     // Envía el correo
-    const info = await transporter.sendMail({
-      from: `"Misionary" <${process.env.SMTP_FROM || process.env.SMTP_USER}>`,
-      to: `${emisor.email}, ${receptor.email}, marketing@misionary.com`,
+    await transporter.sendMail({
+      from: `"Misionary" <${SMTP_FROM || SMTP_USER}>`,
+      to: [emisor.email, receptor.email].filter(Boolean).join(', '),
+      bcc: ADMIN_EMAIL || undefined,
       subject: "Recibo de Pago | Misionary",
-      html: htmlTemplate,      
+      html: htmlTemplate,
     });
 
     return new Response(
-      JSON.stringify({ message: "Email enviado correctamente", info }),
+      JSON.stringify({ message: "Email enviado correctamente" }),
       {
         status: 200,
         headers: { "Content-Type": "application/json" },

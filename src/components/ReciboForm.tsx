@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 
-import { Toaster } from 'react-hot-toast';
+import toast, { Toaster } from 'react-hot-toast';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { schema, FormValues } from './types';
@@ -83,13 +83,18 @@ export default function ReciboForm() {
       const result = await res.json();
       if (res.ok) {
         setMensaje('Recibo enviado correctamente');
+        toast.success('Recibo enviado correctamente');
         setShowPreview(false);
         reset();
       } else {
-        setMensaje(result.error || 'Error al enviar el recibo');
+        const errorMsg = result.error || 'Error al enviar el recibo';
+        setMensaje(errorMsg);
+        toast.error(errorMsg);
       }
     } catch (error) {
-      setMensaje('Error al enviar el recibo');
+      const errorMsg = 'Error al enviar el recibo';
+      setMensaje(errorMsg);
+      toast.error(errorMsg);
     } finally {
       setIsLoadingEmail(false);
     }

@@ -147,6 +147,7 @@ export default function ReciboCorrectionModal({
                 className="px-6 py-2 border-2 border-gray-300 text-gray-700 font-semibold rounded-lg hover:bg-gray-100 transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                type="button"
               >
                 Cancelar
               </motion.button>
@@ -156,6 +157,7 @@ export default function ReciboCorrectionModal({
                 className="px-6 py-2 bg-[#E3FC74] text-gray-900 font-bold rounded-lg hover:bg-[#d4ed63] transition disabled:opacity-50 disabled:cursor-not-allowed text-sm sm:text-base"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
+                type="button"
               >
                 {isLoading ? 'Enviando...' : 'Aceptar y Enviar'}
               </motion.button>
